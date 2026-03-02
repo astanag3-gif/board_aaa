@@ -1,13 +1,16 @@
 import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { BoardsService } from './boards.service';
+import { ApiTags } from '@nestjs/swagger';
+import { CreateBoardDto } from './dto/create-board.dto';
 
+@ApiTags('boards')
 @Controller('boards')
 export class BoardsController {
   constructor(private readonly boardsService: BoardsService) {}
 
   @Post()
-  create(@Body() body: { title: string }) {
-    return this.boardsService.create(body);
+  create(@Body() dto: CreateBoardDto) {
+  return this.boardsService.create(dto);
   }
 
   @Get()
