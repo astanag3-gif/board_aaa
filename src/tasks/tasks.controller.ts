@@ -1,6 +1,9 @@
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, Req } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { ApiTags } from '@nestjs/swagger';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Role } from '../auth/enums/role.enum';
+import { CreateTaskDto } from './dto/create-task.dto';
 
 @ApiTags('tasks')
 @Controller('tasks')
@@ -9,16 +12,11 @@ export class TasksController {
 
   @Post()
   create(
-    @Body()
-    body: {
-      title: string;
-      description?: string;
-      status?: 'todo' | 'in_progress' | 'done';
-      boardId: number;
-      userId: number;
-    },
-  ) {
-    return this.tasksService.create(body);
+    @Body() dto: CreateTaskDto,
+    @Req() req
+) {
+  const userId = req.user.userId;
+      return this.tasksService.create(dto, userId);
   }
 
   @Get()

@@ -14,5 +14,5 @@ export class CreateTaskDto {
   boardId: number;
 
   @ApiProperty()
-  userId: number;
+  userId: string;
 }

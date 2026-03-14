@@ -8,14 +8,14 @@ import { Req } from '@nestjs/common';
 import type { Request } from 'express';
 import { Get, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './jwt-auth.guard';
-
+import { Public } from './decorators/public.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) {}    
 
-
+@Public()
 @Post('register')
 async register(
   @Body() dto: RegisterDto,
@@ -30,6 +30,7 @@ async register(
     };
 }
 
+@Public()
 @Post('login')
 async login(
   @Body() dto: LoginDto,
@@ -49,6 +50,8 @@ async login(
     accessToken: tokens.accessToken
   };
 }
+
+@Public()
 @Post('refresh')
 async refresh(
   @Req() req: Request,

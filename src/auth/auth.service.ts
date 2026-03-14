@@ -106,4 +106,15 @@ async refresh(refreshToken: string) {
 
 }
 
+async validateUser(id: number) {
+  return this.prisma.user.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      role: true,
+    },
+  });
+}
+
+
 }
