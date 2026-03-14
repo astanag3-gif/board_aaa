@@ -6,6 +6,9 @@ import type { Response } from 'express';
 import { LoginDto } from './dto/login.dto';
 import { Req } from '@nestjs/common';
 import type { Request } from 'express';
+import { Get, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from './jwt-auth.guard';
+
 
 @ApiTags('auth')
 @Controller('auth')
@@ -80,6 +83,12 @@ async logout(
     message: 'Logout successful'
   };
 
+}
+
+@Get('me')
+@UseGuards(JwtAuthGuard)
+getProfile(@Req() req) {
+  return req.user;
 }
 
 

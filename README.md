@@ -1,3 +1,134 @@
+Task Management API (NestJS + Prisma + JWT)
+Описание
+
+Backend-приложение на NestJS, реализующее систему управления задачами и аутентификацию пользователей.
+
+Функциональность:
+регистрация пользователя
+авторизация (login)
+генерация JWT access token
+защита маршрутов через JwtStrategy и JwtAuthGuard
+работа с досками (Boards)
+работа с задачами (Tasks)
+работа с пользователями (Users)
+
+Используемые технологии:
+NestJS
+Prisma ORM
+PostgreSQL
+JWT (JSON Web Token)
+Passport / JwtStrategy
+argon2 (хеширование паролей)
+
+Установка и запуск проекта
+1. Клонировать репозиторий
+git clone <repository-url>
+cd project-name
+2. Установить зависимости
+npm install
+3. Создать файл переменных окружения
+Создать файл:
+.env
+Пример содержимого:
+DATABASE_URL="postgresql://postgres:password@localhost:5432/taskdb?schema=public"
+JWT_SECRET=supersecretkey
+JWT_ACCESS_SECRET=access_secret_key
+JWT_REFRESH_SECRET=refresh_secret_key
+COOKIE_DOMAIN=localhost
+PORT=3000
+4. Применить миграции Prisma
+npx prisma migrate dev
+или
+npx prisma db push
+5. Сгенерировать Prisma Client
+npx prisma generate
+6. Запустить сервер
+npm run start:dev
+Сервер будет доступен по адресу:
+http://localhost:3000
+Основные API endpoints
+Регистрация пользователя
+POST /auth/register
+
+Body:
+{
+  "email": "user@mail.com",
+  "name": "User",
+  "password": "123456"
+}
+Авторизация пользователя
+POST /auth/login
+Body:
+{
+  "email": "user@mail.com",
+  "password": "123456"
+}
+Ответ:
+{
+  "accessToken": "JWT_TOKEN"
+}
+Получить профиль пользователя (защищённый маршрут)
+GET /auth/me
+Header:
+Authorization: Bearer <accessToken>
+Переменные окружения
+Переменная	Назначение
+DATABASE_URL	строка подключения к базе данных
+JWT_SECRET	секрет для подписи JWT
+JWT_ACCESS_SECRET	секрет access token
+JWT_REFRESH_SECRET	секрет refresh token
+COOKIE_DOMAIN	домен cookie
+PORT	порт сервера
+Проверка авторизации
+
+Выполнить POST /auth/login
+
+Получить accessToken
+
+Отправить запрос к защищённому маршруту:
+
+GET /auth/me
+Authorization: Bearer <token>
+
+Если токен валиден — сервер вернёт данные пользователя.
+
+Структура проекта
+src/
+ ├── auth/
+ │    ├── auth.controller.ts
+ │    ├── auth.service.ts
+ │    ├── jwt.strategy.ts
+ │    ├── jwt-auth.guard.ts
+ │    └── dto/
+ │
+ ├── users/
+ │    └── users.service.ts
+ │
+ ├── boards/
+ ├── tasks/
+ ├── prisma/
+ └── main.ts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
