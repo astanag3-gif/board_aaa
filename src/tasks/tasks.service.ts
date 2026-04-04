@@ -7,7 +7,7 @@ export class TasksService {
   constructor(private prisma: PrismaService) {}
 
   // CREATE
-  create(dto: CreateTaskDto, userId: string) {
+  create(dto: CreateTaskDto, userId: number) {
   return this.prisma.task.create({
     data: {
       ...dto,
